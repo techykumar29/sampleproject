@@ -18,7 +18,7 @@ public class SpringCustomAnnotationApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		Test test = context.getBean(Test.class);
+		Utility test = context.getBean(Utility.class);
 		if(test != null) {
 			//test.total(1000);
 		}
