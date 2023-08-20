@@ -21,7 +21,7 @@ import reactor.core.publisher.Mono;
 public class UserRouter {
 
 	List<User> list = new ArrayList<>();
-	
+	Flux<User> users = Flux.fromIterable(list).delayElements(Duration.ofSeconds(2));
 
 	@Bean
 	RouterFunction<ServerResponse> userRouterFunction() {
@@ -30,6 +30,12 @@ public class UserRouter {
 						.body(Mono.just("Welcome to Reactive Programming using Spring Webflux."), String.class))
 				.POST("/api/user/add", this::addUser)
 				.GET("/api/users", this::getUsers)
+				.GET("/api/stream",req -> {
+					Flux flux =Flux.range(0, 100)
+					.delayElements(Duration.ofMillis(500))
+					.map(i->i);
+					return ServerResponse.ok().body(flux,Flux.class);
+				})
 				.build();
 	}
 
@@ -43,7 +49,7 @@ public class UserRouter {
 	}
 
 	private Mono<ServerResponse> getUsers(ServerRequest request) {
-		Flux<User> users = Flux.fromIterable(list).delayElements(Duration.ofSeconds(2));
+		
 		return ServerResponse.ok()
 				.contentType(MediaType.TEXT_EVENT_STREAM)
 				.body(users, User.class);
