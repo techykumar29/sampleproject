@@ -9,11 +9,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class User {
+public class Product {
 
 	private String id;
-	private String email;
-	private String username;
-	private String password;
-	private String phone;
+	private String title;
+	private String price;
+	private String description;
+	private String category;
+	private String image;
+	
+	
 }
